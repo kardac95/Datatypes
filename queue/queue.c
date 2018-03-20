@@ -5,19 +5,17 @@
 *	Input:			the address of the freefunction
 *	Output:			queue*
 */                                                                                
-queue* queue_empty(queueFreeFunc freeFunc)
-{                                                                               
-    queue *q;                                                                   
-    if(!(q = (queue*)malloc(sizeof(queue))))                                             
-    {                                                                           
-        return NULL;                                                            
+queue* queue_empty(queueFreeFunc freeFunc) {
+	queue *q;
+	if(!(q = (queue*)malloc(sizeof(queue)))) {                                                                           
+		return NULL;
     }
 	pthread_mutex_init(&(q->mutex), NULL);
 	q->freeFunc = freeFunc;
-    q->tail = NULL;
-    q->head = NULL;
-    q->size = 0;                                                              
-    return q; 
+	q->tail = NULL;
+	q->head = NULL;
+	q->size = 0;                                                              
+	return q; 
 }
 
 /*
@@ -26,8 +24,7 @@ queue* queue_empty(queueFreeFunc freeFunc)
 *	Input:			queue*
 *	Output:			void pointer
 */
-void* queue_first(queue* q)
-{
+void* queue_first(queue* q) {
 	pthread_mutex_lock(&(q->mutex));
 	void *data = q->head->data;
 	pthread_mutex_unlock(&(q->mutex));
@@ -39,22 +36,19 @@ void* queue_first(queue* q)
 *	Input:			queue*, void*
 *	Output:			Non
 */
-void enqueue(queue* q, void* data)
-{
+void enqueue(queue* q, void* data) {
 	pthread_mutex_lock(&(q->mutex));
 	node* new = (node*)malloc(sizeof(node));
 	new->data = data;
 	new->next = NULL;
 	
-	if(!q->head)                                                                
-    {                                                                           
-        q->head = new; 
-    }else                                                                       
-    {
-        q->tail->next = new;
-    }                                                                           
-    q->tail = new;
-    q->size++;
+	if(!q->head) {                                                                           
+		q->head = new;
+    } else {
+		q->tail->next = new;
+	}                                                                           
+	q->tail = new;
+	q->size++;
 	pthread_mutex_unlock(&(q->mutex));
 } 
 /*
@@ -62,11 +56,10 @@ void enqueue(queue* q, void* data)
 *	Input:			queue*
 *	Output:			non
 */
-void dequeue(queue* q)                                                          
-{
+void dequeue(queue* q) {
 	pthread_mutex_lock(&(q->mutex));
 	//declare a temporary node that points to the head.
-    node* n = q->head;
+	node* n = q->head;
 	//points the head to the element that is second in the queue
 	q->head = q->head->next;
 	//to free the data that the node points to.
@@ -82,12 +75,11 @@ void dequeue(queue* q)
 *	Input: 			queue*
 *	Output:			int, the size of the queue
 */                                                                                
-int queue_size(queue* q)                                                        
-{
+int queue_size(queue* q) {
 	pthread_mutex_lock(&(q->mutex));
-    int size = q->size;
-    pthread_mutex_unlock(&(q->mutex));
-    return size;                                                             
+	int size = q->size;
+	pthread_mutex_unlock(&(q->mutex));
+	return size;                                                             
 }                                                                               
 /*
 *	Description:	Check if queue is empty
@@ -95,13 +87,12 @@ int queue_size(queue* q)
 *	Output:			returns 0, if it contains elements, 
 *					returns 1, if the queue is 0
 */                                                                                
-int queue_is_empty(queue* q)                                                    
-{
+int queue_is_empty(queue* q) {
 	pthread_mutex_lock(&(q->mutex));
 	int size = q->size;
 	pthread_mutex_unlock(&(q->mutex));
 	if(size > 0)
-    	return 0;                                                                   
+		return 0;                                                                   
 	return 1;
 }	
 
@@ -110,12 +101,9 @@ int queue_is_empty(queue* q)
 *	Input:			queue*
 *	Output:			Non
 */
-void queue_free(queue *q)
-{
-    if(q->freeFunc != NULL)
-	{
-        while(q->head != NULL)
-		{
+void queue_free(queue *q) {
+	if(q->freeFunc != NULL) {
+        while(q->head != NULL) {
 			node *tmpNode = q->head;
 			q->head = q->head->next;
 			q->freeFunc(tmpNode->data);
