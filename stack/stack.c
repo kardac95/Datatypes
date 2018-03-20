@@ -51,22 +51,6 @@ void* stack_top(stack* s) {
 	pthread_mutex_unlock(&(s->lock));
 }
 
-void stack_move_top(stack* src, stack* dest) {
-	pthread_mutex_lock(&(src->lock2));
-	pthread_mutex_lock(&(src->lock));
-	pthread_mutex_lock(&(dest->lock));
-	node* tmp = src->top;
-	src->top = (node*)src->top->next;
-	tmp->next = (struct node*)dest->top;
-	dest->top = (node*)tmp;
-	src->size--;
-	dest->size++;
-	pthread_mutex_unlock(&(src->lock));
-	pthread_mutex_unlock(&(dest->lock));
-	pthread_mutex_unlock(&(src->lock2));
-
-}
-
 unsigned int stack_size(stack* s) {
 	pthread_mutex_lock(&(s->lock));
 	unsigned int size = s->size;

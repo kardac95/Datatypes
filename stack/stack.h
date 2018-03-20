@@ -16,7 +16,6 @@ typedef struct {
 	node* top;
 	unsigned int size;
 	pthread_mutex_t lock;
-	pthread_mutex_t lock2;
 	free_func freefunc;
 } stack;	
 
@@ -29,8 +28,6 @@ void stack_pop(stack*);
 int stack_is_empty(stack*);
 
 void* stack_top(stack*);
-
-void stack_move_top(stack*, stack*);
 
 unsigned int stack_size(stack*);
 
