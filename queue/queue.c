@@ -103,12 +103,10 @@ int queue_is_empty(queue* q) {
 */
 void queue_free(queue *q) {
 	if(q->freeFunc != NULL) {
-		while(q->head != NULL) {
-			node *tmpNode = q->head;
-			q->head = q->head->next;
-			q->freeFunc(tmpNode->data);
-			free(tmpNode);
+		while(q->head) {
+			dequeue(q);
 		}
+		pthread_mutex_destroy(&(q->mutex));
 	}
 	free(q);
 }
