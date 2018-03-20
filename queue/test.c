@@ -20,7 +20,7 @@ void enqueue_test() {
 	
 	enqueue(q, t1);
 	if(!queue_is_empty(q)) {
-		fprintf(stderr,"Test 1 enqueue: SUCSSESS\n");
+		fprintf(stderr,"Test 1 enqueue: SUCCESS\n");
 	}else {
 		fprintf(stderr, "Queue is empty faild first test: FAILED\n");
 		exit(EXIT_FAILURE);
@@ -56,20 +56,20 @@ void dequeue_test()
 	
 	if(!strcmp(((char*)queue_first(q)) ,t2))
 	{
-		fprintf(stderr,"Test dequeue 1: SUCCESS\n");
+		fprintf(stderr,"Test 1 dequeue: SUCCESS\n");
 	}else
 	{
-		fprintf(stderr,"Test dequeue 1: SUCCESS\n");
+		fprintf(stderr,"Test 1 dequeue: FAILED\n");
 		exit(EXIT_FAILURE);
 	}
 
 	dequeue(q);
 	if(queue_is_empty(q))
 	{
-		fprintf(stderr, "Test dequeue 2: SUCCESS\n");
+		fprintf(stderr, "Test 2 dequeue: SUCCESS\n");
 	}else
 	{
-		fprintf(stderr,"Test dequeue 2: FAILED\n");
+		fprintf(stderr, "Test 2 dequeue: FAILED\n");
 		exit(EXIT_FAILURE);
 	}
 	queue_free(q);
